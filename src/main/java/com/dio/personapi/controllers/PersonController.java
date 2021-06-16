@@ -28,8 +28,14 @@ public class PersonController {
         return personService.createPerson(personDTO);
     }
 
+    @GetMapping
     public List<PersonDTO> listAll(){
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public List<PersonDTO> findById(@PathVariable Long id){
+        return personService.findById(id);
     }
 
 }
