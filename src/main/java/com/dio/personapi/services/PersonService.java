@@ -14,9 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
-    private PersonRepository personRepository;
-
-    private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     @Autowired
     public PersonService(PersonRepository personRepository){
@@ -27,9 +24,7 @@ public class PersonService {
         Person personToSave = personMapper.toModel(personDTO);
 
         Person savedPerson = personRepository.save(personToSave);
-        return MessageResponseDTO.builder()
-                .message("Created person with ID"+ savedPerson.getId())
-                .build();
+        return createMessageResponse(savedPerson.getId(), "Created person with ID ");
     }
 
     public List<PersonDTO> listAll() {
@@ -50,5 +45,24 @@ public class PersonService {
     public void delete(Long id) throws PersonNotFoundException{
         verifyIfExist(id);
         personRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException{
+        verifyIfExist(id);
+
+        Person personToSave = personMapper.toModel(personDTO);
+        Person savedPerson = personRepository.save(personToSave);
+
+        return createMessageResponse(personDTO.getId(), "Updated person with ID ");
+    }
+
+    private PersonRepository personRepository;
+
+    private final PersonMapper personMapper = PersonMapper.INSTANCE;
+
+    private MessageResponseDTO createMessageResponse(Long id, String s) {
+        return MessageResponseDTO.builder()
+                .message(s + id)
+                .build();
     }
 }
