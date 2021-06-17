@@ -1,6 +1,6 @@
 package com.dio.personapi.controllers;
 
-import com.dio.personapi.dto.MessageResponseDTO;
+import com.dio.personapi.dto.response.MessageResponseDTO;
 import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.services.PersonService;
