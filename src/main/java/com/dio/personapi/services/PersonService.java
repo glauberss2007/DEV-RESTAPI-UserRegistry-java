@@ -1,11 +1,12 @@
 package com.dio.personapi.services;
 
-import com.dio.personapi.dto.MessageResponseDTO;
+import com.dio.personapi.dto.response.MessageResponseDTO;
 import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.entities.Person;
 import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.mapper.PersonMapper;
 import com.dio.personapi.repositories.PersonRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
     @Autowired
@@ -56,7 +58,7 @@ public class PersonService {
         return createMessageResponse(personDTO.getId(), "Updated person with ID ");
     }
 
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
@@ -64,5 +66,14 @@ public class PersonService {
         return MessageResponseDTO.builder()
                 .message(s + id)
                 .build();
+    }
+
+    public MessageResponseDTO create(PersonDTO personDTO) {
+        Person person = personMapper.toModel(personDTO);
+        Person savedPerson = personRepository.save(person);
+
+        MessageResponseDTO messageResponse = createMessageResponse(savedPerson.getId(), "Person successfully created with ID ");
+
+        return messageResponse;
     }
 }
