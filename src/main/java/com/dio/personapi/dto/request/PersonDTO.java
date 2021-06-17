@@ -1,6 +1,5 @@
 package com.dio.personapi.dto.request;
 
-import com.dio.personapi.entities.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +8,10 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.List;
+
 
 
 //Auto Getters and Seters
@@ -40,9 +40,10 @@ public class PersonDTO {
     @NotEmpty
     private String rg;
 
-    private LocalDate birthDate;
+    @NotNull
+    private String birthDate;
 
     @Valid
     @NotEmpty
-    private List<Phone> phones;
+    private List<PhoneDTO> phones;
 }
